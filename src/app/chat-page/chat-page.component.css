@@ -1,0 +1,164 @@
+.chat-container {
+  height: 100vh;
+}
+
+.sidebar {
+  background-color: #f8f9fa;
+}
+
+.chat-header {
+  background-color: #ebe7e7;
+  color: black;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  box-shadow: 0px 5px 6px 4px rgb(0 0 0 / 25%);
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 1rem;
+  margin-top: 1.3rem;
+}
+
+.chat-title {
+  font-size: 2rem;
+  margin: 0;
+  font-weight: bold;
+}
+
+.chat-subtitle {
+  font-size: 1.2rem;
+  margin: 0;
+  font-family: 'Times New Roman', serif;
+}
+
+.icon {
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  display: flex;
+  align-items: flex-start;
+}
+
+.user-message {
+  align-self: flex-end;
+  font-family: math;
+  background-color: ghostwhite;
+  color: black;
+  border-radius: 8px;
+  padding: 8px 12px;
+  max-width: 75%;
+  word-wrap: break-word;
+  margin-left: auto;
+}
+
+.bot-message {
+  align-self: flex-start;
+  font-family: math;
+  color: black;
+  padding: 8px;
+  width: 70%;
+  white-space: normal;
+}
+
+.input-area {
+  display: flex;
+  margin-top: auto;
+  position: relative;
+}
+
+.chat-input {
+  width: 50%;
+  height: 50px;
+  padding: 20px 40px;
+  border-radius: 20px;
+  border: 1px solid #d1d1d1;
+  background: #f7f7f8;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  text-align: left;
+}
+
+.chat-input::placeholder {
+  font-size: 16px;
+  color: #aaa;
+  opacity: 1;
+  padding-left: 10px;
+}
+
+.attach-button,
+.send-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.attach-button {
+  left: 10px;
+}
+
+.send-button {
+  right: 10px;
+}
+
+.attach-button i,
+.send-button i {
+  font-size: 1.8rem;
+  color: black;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.dropdown-container {
+  margin-top: 1rem;
+}
+
+.dropdown-list {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdown-list select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.dropdown-list button {
+  background-color: #28a745;
+  color: white;
+}
+
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  max-width: 500px;
+}

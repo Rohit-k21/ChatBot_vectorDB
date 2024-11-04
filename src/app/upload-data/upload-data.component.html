@@ -1,0 +1,109 @@
+<!-- <div class="container d-flex flex-column align-items-center height"> -->
+  <!-- Header Section -->
+  <!-- <div class="text-center mb-2 mt-5">
+    <h2 class="text-primary" style="margin-top: 8rem;">Upload or Select a PDF</h2>
+    <p class="text-muted">Choose to upload a new PDF or select from previously uploaded files.</p>
+    <hr class="w-50 mx-auto my-3" />
+  </div> -->
+
+  <!-- Option Selection -->
+  <!-- <div class="option-selection mb-4 text-center">
+    <button class="btn btn-primary me-3" (click)="selectOption('new')">Upload New PDF</button>
+    <button class="btn btn-secondary" (click)="selectOption('previous')">Select from Previous</button>
+  </div> -->
+
+  <!-- Unified PDF Handling Section -->
+  <!-- <div class="pdf-handling-section text-center mb-2" style="min-width: 80%; min-height: 400px"> -->
+    <!-- PDF Handling based on selection -->
+    <!-- <div *ngIf="!isLoading && !isUploaded && selectedOption === 'new'">
+      <button class="btn btn-info" (click)="openUploadModal()">Attach PDF</button>
+    </div>
+
+    <div *ngIf="!isLoading && !isUploaded && selectedOption === 'previous'">
+      <h5 class="text-muted">Select a Previously Uploaded PDF</h5>
+      <div class="form-group">
+        <select class="form-select w-50 mx-auto" [(ngModel)]="selectedPreviousPdf">
+          <option *ngFor="let pdf of previousPdfs" [value]="pdf">{{ pdf }}</option>
+        </select>
+        <input type="text" class="form-control mt-3" [(ngModel)]="query" placeholder="Enter query" />
+        <button class="btn btn-primary mt-3" (click)="submitPreviousPdf()" [disabled]="!selectedPreviousPdf || !query">Submit</button>
+      </div>
+    </div> -->
+
+    <!-- Loading and Upload Complete Message -->
+    <!-- <div *ngIf="isLoading || isUploaded" class="d-flex flex-column justify-content-center align-items-center" style="min-height: 400px">
+      <div *ngIf="isLoading" class="mb-3" role="status">
+        <span class="loader text-primary"></span>
+      </div>
+      <div *ngIf="!isLoading && isUploaded" class="text-center mb-3">
+        <i class="bi bi-check-circle text-success bounce-icon mb-2"></i>
+        <div class="processing-complete-message text-primary" role="status">
+          <span class="text-success">Submission Complete. Your file has been processed successfully.</span>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Modal for PDF Upload -->
+  <!-- <div class="modal fade" id="uploadModal" tabindex="-1" >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Upload PDF</h5>
+          <button type="button" class="btn-close" (click)="closeUploadModal()"></button>
+        </div>
+        <div class="modal-body">
+
+          <div class="file-upload-area mb-4 d-flex justify-content-center align-items-center" (click)="fileInput.click()" (drop)="onFileDrop($event)" (dragover)="onDragOver($event)" style="min-height: 300px;">
+            <input type="file" class="d-none" #fileInput (change)="onFileSelect($event)" accept=".pdf" />
+            <div *ngIf="fileName; else defaultText">
+              <i class="fas fa-file-pdf fa-3x text-danger mb-3"></i>
+              <h5 class="text-muted">{{ fileName }}</h5>
+            </div>
+            <ng-template #defaultText>
+              <i class="fas fa-file-upload fa-3x text-primary mb-3"></i>
+              <h5 class="text-muted">Drag & drop your PDF file here or click to select</h5>
+            </ng-template>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeUploadModal()">Close</button>
+          <button type="button" class="btn btn-primary" (click)="submitFile()" [disabled]="!fileSelected">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+<!-- </div> -->
+
+<div class="modal-content">
+  <div class="modal-header ">
+    <!-- <h5 class="modal-title">Upload PDF</h5> -->
+    <button type="button" class="btn-close mb-1" style="float: right; margin-left: auto; font-size: 1.1rem;" (click)="closeUploadModal()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="file-upload-area mb-4 d-flex flex-column gap-1 justify-content-center align-items-center" (click)="fileInput.click()" (drop)="onFileDrop($event)" (dragover)="onDragOver($event)" style="min-height: 300px;">
+      <input
+      type="file"
+      class="d-none"
+      #fileInput
+      (change)="onFileSelect($event)"
+      accept=".pdf"
+      (keydown)="handleKeyDown($event)"
+      tabindex="0" />
+         <div *ngIf="fileName; else defaultText" class="d-flex flex-column justify-content-center align-items-center gap-1">
+        <i class="fas fa-file-pdf fa-3x text-danger mb-3"></i>
+        <h5 class="text-muted">{{ fileName }}</h5>
+        <p class="text-muted text-center fs-6">Please press enter to upload your file!</p>
+
+      </div>
+      <ng-template #defaultText >
+        <span><i class="fas fa-file-upload fa-3x text-primary mb-3"></i></span>
+        <h5 class="text-muted text-center fs-5">Drag & drop your PDF file here or click to select</h5>
+      </ng-template>
+    </div>
+  </div>
+  <div class="modal-footer d-flex flex-row gap-1">
+    <!-- <button type="button" class="btn btn-secondary" (click)="closeUploadModal()">Close</button> -->
+    <button type="button" class="btn btn-primary" (click)="submitFile()" [disabled]="!fileSelected">Submit</button>
+  </div>
+</div>

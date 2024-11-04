@@ -1,0 +1,107 @@
+<div class="d-flex chat-container">
+  <!-- <div class="sidebar bg-light p-1 shadow" style="width: 16rem; position: fixed; left: 0%; height: 95vh;">
+    <div class="d-flex flex-column justify-content-around align-items-start mb-3 p-2">
+      <h2 style="margin-top: 1 rem;">CHAT BOT </h2>
+      <h3 style="text-align: left; font-family: 'Times New Roman'; font-size: larger; margin-top: 1rem;">Chat History</h3>
+      <button class="btn btn-link text-dark p-0" (click)="clearHistory()" title="Clear History" style="margin-top: 1rem;">
+        <i class="bi bi-trash" style="font-size: 1.5rem;"></i>
+      </button>
+    </div>
+    <ul class="list-unstyled chat-history p-2">
+      <li *ngFor="let message of messages">{{ message }}</li>
+    </ul>
+  </div> -->
+
+  <div class="sidebar bg-light p-1 shadow" style="width: 16rem; position: fixed; left: 0%; height: 100vh; top: 0%;">
+    <div class="chat-header">
+      <h2 class="chat-title">
+        <i class="bi bi-chat-dots icon"></i> CHAT BOT
+      </h2>
+    </div>
+
+
+    <div class="dropdown-container px-3" style="margin-top: 1rem;">
+      <button class="btn btn-primary w-100" (click)="toggleDropdown()">
+        Select Collection
+      </button>
+      <div *ngIf="isDropdownOpen" class="dropdown-list bg-white shadow p-2 mt-2">
+        <select [(ngModel)]="selectedPreviousPdf" class="form-control mb-2">
+          <option disabled value="" selected>Select Collection</option>
+          <option *ngFor="let pdf of dropOption" [value]="pdf.name">{{ pdf.name }}</option>
+        </select>
+        <button class="btn btn-success w-100" (click)="submitPreviousPdf()">
+          Save
+        </button>
+      </div>
+    </div>
+
+
+    <div class="d-flex justify-content-between align-items-center px-3">
+      <h3 style="text-align: left; font-family: 'Times New Roman'; font-size: larger; margin-top: 1rem;">Chat History</h3>
+      <button class="btn btn-link text-dark p-0" (click)="clearHistory()" title="Clear History" style="margin-top: 1rem;">
+        <i class="bi bi-trash" style="font-size: 1.5rem;"></i>
+      </button>
+    </div>
+
+    <ul class="list-unstyled chat-history p-2" style="font-family: 'Times New Roman';">
+      <li *ngFor="let message of messages">{{ message }}</li>
+    </ul>
+  </div>
+
+  <div class="chat-area p-3 d-flex flex-column" style="width: 100%; margin-left: 17rem; margin-top: 5rem;">
+    <div class="messages mb-2">
+      <div
+        class="message"
+        *ngFor="let msg of chatMessages; let i = index"
+        [ngClass]="{'user-message': !isBotMessage(msg), 'bot-message': isBotMessage(msg)}"
+        (mouseenter)="hoverIndex = i"
+        (mouseleave)="hoverIndex = null"
+      >
+        <div class="user-message-container" *ngIf="!isBotMessage(msg)">
+          <div class="message-box">
+            <span *ngIf="!isEditing || editIndex !== i">{{ msg }}</span>
+            <div *ngIf="isEditing && editIndex === i">
+              <input [(ngModel)]="userInput" class="form-control me-2" (keyup.enter)="updateMessage(i)" />
+              <button class="btn btn-primary" (click)="updateMessage(i)">Update</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bot-message-container" style="width: 80% !important;" *ngIf="isBotMessage(msg)">
+          <div class="bot-message">
+            {{ displayedText[i] || '...' }}
+          </div>
+          <div *ngIf="isBotMessage(msg)" class="copy-option">
+            <button class="btn btn-outline-secondary btn-sm" (click)="copyToClipboard(msg)">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+            <span *ngIf="copyMessageVisible && lastCopiedMessage === msg" class="copied-message">Copied</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-area d-flex" *ngIf="!isEditing" style="position: relative;">
+      <input
+        type="text"
+        [(ngModel)]="userInput"
+        placeholder="Enter Prompt"
+        class="form-control chat-input"
+        (keyup.enter)="sendMessage()"
+        style="width: 100%; padding-left: 4rem;"
+      />
+      <button (click)="toggleModal()" class="btn btn-link attach-button" title="Attach">
+        <i class="bi bi-paperclip"></i>
+      </button>
+      <button class="btn btn-link send-button" (click)="sendMessage()" title="Send">
+        <i class="bi bi-arrow-up-circle-fill"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isModalOpen" class="modal-overlay">
+  <div class="modal-content">
+    <app-upload-data (closeModal)="toggleModal()"></app-upload-data>
+  </div>
+</div>
