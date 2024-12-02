@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { PdfUploadService } from '../pdf-upload.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-upload-data',
@@ -20,8 +21,9 @@ export class UploadDataComponent implements OnInit {
   query: string = '';
   queryResults: any[] = [];
   showModal: boolean = false;
+  isSuccess:boolean = false;
 
-  constructor(private pdfUploadService: PdfUploadService) {}
+  constructor(private pdfUploadService: PdfUploadService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.loadJsonFiles();
@@ -66,6 +68,7 @@ export class UploadDataComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.pdfFile = input.files[0];
+      console.log(this.pdfFile);
       this.fileName = this.pdfFile.name;
       this.fileSelected = true;
     }
@@ -89,21 +92,35 @@ export class UploadDataComponent implements OnInit {
       this.isLoading = true;
       console.log("Entered in submit file");
 
+      setTimeout(() => {
+        this.isLoading = false;
+        this.isSuccess = true;
+
+        // Optionally, reset the modal after some time
+        setTimeout(() => {
+          this.isSuccess = false;
+          this.fileSelected = false;
+          this.fileName = null;
+        }, 3000); // Reset after 3 seconds
+      }, 2000); // Simulate upload duration
 
       this.pdfUploadService.uploadPdf(this.pdfFile).subscribe({
         next: (response) => {
           this.isLoading = false;
           this.isUploaded = true;
           console.log(response.message); // Handle success message from backend
+          this.toastr.success('File upload completed!', 'Success!');
 
           if (response.status === 200) {
-            const jsonPath = response.json_path;  // Assuming this path is returned in response
+            const jsonPath = response.json_path;
 
-            console.log("RESPONSE PDF UPLOAD",response)
+            setTimeout(() => {
+              window.location.reload();
+              console.log("RESPONSE PDF UPLOAD", response);
+            }, 1000);
           }
 
-          this.closeUploadModal(); // Close modal on success
-
+          this.closeUploadModal();
         },
         error: (error) => {
           this.isLoading = false;

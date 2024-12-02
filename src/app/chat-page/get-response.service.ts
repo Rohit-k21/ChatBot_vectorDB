@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class GetResponseService {
-  private apiurl = 'http://10.3.117.101:1998/getResponse'; // Keep this if it's needed for other chat functionalities
+  private apiurl = 'http://127.0.0.1:5000/getResponse'; // Keep this if it's needed for other chat functionalities
 
   constructor(private http: HttpClient) {}
 

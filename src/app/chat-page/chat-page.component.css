@@ -1,9 +1,27 @@
-.chat-container {
-  height: 100vh;
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 0.8rem;
 }
 
-.sidebar {
-  background-color: #f8f9fa;
+.navbar-brand {
+  margin-left: 3rem;
+  display: flex;
+  align-items: center;
+  font-family: 'Oswald';
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.navbar .icon {
+  margin-right: 10px;
+  font-size: 3rem;
+}
+
+.chat-container {
+  height: 100vh;
 }
 
 .chat-header {
@@ -49,21 +67,23 @@
 }
 
 .user-message {
-  align-self: flex-end;
+  max-width: 35rem;
   font-family: math;
-  background-color: ghostwhite;
-  color: black;
+  font-size: large;
+  background-color: royalblue;
+  color: white;
   border-radius: 8px;
-  padding: 8px 12px;
-  max-width: 75%;
-  word-wrap: break-word;
+  padding: 6px 7px;
   margin-left: auto;
 }
 
 .bot-message {
   align-self: flex-start;
   font-family: math;
+  font-size: large;
+  background-color: rgb(247 247 253 / 99%);
   color: black;
+  border-radius: 9px;
   padding: 8px;
   width: 70%;
   white-space: normal;
@@ -71,16 +91,18 @@
 
 .input-area {
   display: flex;
-  margin-top: auto;
+  margin-top: 50rem;
   position: relative;
+  width: 60%;
+  margin-left: 12rem;
 }
 
 .chat-input {
   width: 50%;
   height: 50px;
   padding: 20px 40px;
-  border-radius: 20px;
-  border: 1px solid #d1d1d1;
+  border-radius: 15px;
+  border: 1px solid #c2bebe;
   background: #f7f7f8;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   font-size: 18px;
@@ -138,7 +160,6 @@
 .dropdown-list {
   border: 1px solid #ddd;
   border-radius: 4px;
-  max-height: 200px;
   overflow-y: auto;
 }
 
@@ -162,3 +183,249 @@
   width: 80%;
   max-width: 500px;
 }
+
+.dropDownOp:hover{
+  background-color: #f8f5f5b6;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.loader {
+  color: #000;
+  width: 4px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow: 19px 0 0 7px, 38px 0 0 3px, 57px 0 0 0;
+  transform: translateX(-38px);
+  animation: l21 .5s infinite alternate linear;
+}
+
+@keyframes l21 {
+  50%  {box-shadow: 19px 0 0 3px, 38px 0 0 7px, 57px 0 0 3px}
+  100% {box-shadow: 19px 0 0 0  , 38px 0 0 3px, 57px 0 0 7px}
+}
+
+.divider {
+  margin-top: 52rem;
+  border: 0;
+  border-top: 2px solid black;
+}
+/* Default style for the input box */
+.search-box {
+  border: 1px solid #ccc;
+  transition: border-color 0.9s ease;
+}
+
+/* Highlight the border when the input is focused */
+.search-box:focus {
+  border-color: blue; /* Bootstrap blue */
+  outline: none;
+  box-shadow: blue; /* Optional shadow for better effect */
+}
+.input-group-prepend{
+  color: blue;
+}
+
+.user-icon {
+  font-size: 24px;
+  color: #007bff; /* You can change this color */
+  margin-right: 10px; /* Spacing between the icon and the message */
+  margin-left: 5px;
+  margin-top: 4px;
+}
+
+/* Style for the dropdown list that will overlay the chat area */
+.search-dropdown {
+  position: absolute;
+  top: 100%; /* Positions the dropdown right below the input box */
+  left: 0;
+  right: 0;
+  z-index: 9999; /* Ensures it overlays the chat area */
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-height: 200px;
+  overflow-y: auto; /* Scrollable if the list exceeds the max height */
+  overflow-x: hidden;
+  margin-top: 5px;
+  padding: 0;
+  width: 130%;
+}
+
+/* Optional: Style for the dropdown items */
+.search-dropdown li {
+  z-index: 10000;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* Optional: Style for hovered items */
+.search-dropdown li:hover {
+  background-color: #f1f1f1;
+}
+
+.welcome-message-container {
+  text-align: center;
+  padding: 0 20rem;
+  color: #333;
+  margin: 2rem auto;
+  max-width: 100%;
+}
+
+.welcome-message h2 {
+  font-size: 5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #007bff;
+}
+
+.welcome-message p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+.welcome-message-container {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.welcome-message-container.ng-leave {
+  opacity: 0;
+}
+.bot-icon {
+  font-size: 2rem;
+  color: #333;
+}
+.history-modal {
+  position: fixed;
+  top: 0;
+  right: -400px; /* Start outside the viewport */
+  height: 100%;
+  width: 400px;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease-in-out;
+  z-index: 1050;
+  overflow-y: auto;
+}
+
+.history-modal.modal-open {
+  right: 0; /* Slide into view */
+}
+
+.modal-header {
+  font-family: 'Times New Roman';
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modal-body {
+  padding: 1rem;
+}
+
+.modal-body ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modal-body li {
+  padding: 0.5rem 0;
+  cursor: pointer;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modal-body li:hover {
+  background-color: #f1f1f1;
+}
+
+/* Container for the filter input and button */
+.filter-container {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  gap: 10px; /* Space between filter and button */
+  margin: 10px 0; /* Optional margin for spacing */
+}
+
+/* Style for the filter input */
+.filter-section {
+  flex: 1; /* Occupy half the available space */
+}
+
+.filter-section .form-control {
+  width: 100%; /* Ensure the date input takes full width */
+}
+
+/* Style for the Clear Filter button */
+.clear-filter-btn {
+  margin-top: auto;
+  padding: 8px 16px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.clear-filter-btn:hover {
+  background-color: darkred;
+}
+
+/* No History Message */
+.no-history-message {
+  text-align: center;
+  font-style: italic;
+  color: gray;
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-item {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  padding: 16px;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.history-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.query {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.response {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #555;
+  line-height: 1.6;
+}
+
+.history-item .response strong {
+  color: #666;
+}
+
+/* rohit ravindra kulkarni */

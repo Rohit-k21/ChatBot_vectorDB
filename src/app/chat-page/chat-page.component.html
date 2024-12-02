@@ -1,77 +1,111 @@
-<div class="d-flex chat-container">
-  <!-- <div class="sidebar bg-light p-1 shadow" style="width: 16rem; position: fixed; left: 0%; height: 95vh;">
-    <div class="d-flex flex-column justify-content-around align-items-start mb-3 p-2">
-      <h2 style="margin-top: 1 rem;">CHAT BOT </h2>
-      <h3 style="text-align: left; font-family: 'Times New Roman'; font-size: larger; margin-top: 1rem;">Chat History</h3>
-      <button class="btn btn-link text-dark p-0" (click)="clearHistory()" title="Clear History" style="margin-top: 1rem;">
-        <i class="bi bi-trash" style="font-size: 1.5rem;"></i>
-      </button>
-    </div>
-    <ul class="list-unstyled chat-history p-2">
-      <li *ngFor="let message of messages">{{ message }}</li>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">
+    <i class="bi bi-chat-dots icon" style="color: blue;"></i> FileGenie
+  </a>
+
+  <!-- Toggler Button -->
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarContent"
+    aria-controls="navbarContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+    title="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Collapsible Section -->
+  <div class="collapse navbar-collapse" style="margin-left: 60em;" id="navbarContent">
+    <!-- Search Section -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" style="display: flex; align-items: center;">
+        <div class="input-group" style="flex: 1; max-width: 300px;">
+          <div class="input-group-prepend d-flex flex-row gap-1 align-items-center">
+            <span class="input-group-text">
+              <i class="bi bi-search" style="padding: 0.3rem;"></i>
+            </span>
+            <input
+              type="text"
+              [(ngModel)]="searchTerm"
+              placeholder="Search collection"
+              class="form-control"
+              (input)="filterCollections()"
+              (focus)="toggleDropdown()"
+              style="width: auto; padding: 10px;"
+            />
+            <ul class="list-unstyled search-dropdown" *ngIf="isDropdownOpen">
+              <li
+                class="dropdown-item"
+                *ngFor="let pdf of filteredCollections"
+                (click)="selectCollection(pdf);"
+              >
+                {{ pdf.name }}
+              </li>
+            </ul>
+            <button
+              class="btn btn-success"
+              style="margin-left: 1rem;"
+              (click)="submitPreviousPdf()"
+              title="Save your search!"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </li>
     </ul>
-  </div> -->
 
-  <div class="sidebar bg-light p-1 shadow" style="width: 16rem; position: fixed; left: 0%; height: 100vh; top: 0%;">
-    <div class="chat-header">
-      <h2 class="chat-title">
-        <i class="bi bi-chat-dots icon"></i> CHAT BOT
-      </h2>
-    </div>
-
-
-    <div class="dropdown-container px-3" style="margin-top: 1rem;">
-      <button class="btn btn-primary w-100" (click)="toggleDropdown()">
-        Select Collection
-      </button>
-      <div *ngIf="isDropdownOpen" class="dropdown-list bg-white shadow p-2 mt-2">
-        <select [(ngModel)]="selectedPreviousPdf" class="form-control mb-2">
-          <option disabled value="" selected>Select Collection</option>
-          <option *ngFor="let pdf of dropOption" [value]="pdf.name">{{ pdf.name }}</option>
-        </select>
-        <button class="btn btn-success w-100" (click)="submitPreviousPdf()">
-          Save
+    <!-- History Icon -->
+    <ul class="navbar-nav ml-auto" style="margin-left: 4rem;">
+      <li class="nav-item">
+        <button
+          class="btn btn-light"
+          (click)="toggleHistoryModal()"
+          title="View Chat History"
+        >
+          <i class="bi bi-clock-history"></i> <!-- History Icon -->
         </button>
-      </div>
-    </div>
-
-
-    <div class="d-flex justify-content-between align-items-center px-3">
-      <h3 style="text-align: left; font-family: 'Times New Roman'; font-size: larger; margin-top: 1rem;">Chat History</h3>
-      <button class="btn btn-link text-dark p-0" (click)="clearHistory()" title="Clear History" style="margin-top: 1rem;">
-        <i class="bi bi-trash" style="font-size: 1.5rem;"></i>
-      </button>
-    </div>
-
-    <ul class="list-unstyled chat-history p-2" style="font-family: 'Times New Roman';">
-      <li *ngFor="let message of messages">{{ message }}</li>
+      </li>
     </ul>
   </div>
+</nav>
 
-  <div class="chat-area p-3 d-flex flex-column" style="width: 100%; margin-left: 17rem; margin-top: 5rem;">
-    <div class="messages mb-2">
+<div class="chat-area d-flex flex-column shadow-lg rounded border
+" style="margin-top: 7.5rem; min-height: 88vh; width: 90%; margin-left: auto; margin-right: auto; padding-bottom: 5rem; padding-right: 2rem; padding-left: 2rem; padding-top: 2rem; ">
+  <div *ngIf="showWelcomeMessage" class="welcome-message-container" style="margin-top: 15rem;">
+    <div class="welcome-message">
+      <h2>Welcome to FileGenie</h2>
+      <p>Your PDF query assistant. Please upload a PDF and start querying!</p>
+    </div>
+  </div>
+
+    <div class="messages mb-2" *ngIf="!showWelcomeMessage">
       <div
         class="message"
         *ngFor="let msg of chatMessages; let i = index"
-        [ngClass]="{'user-message': !isBotMessage(msg), 'bot-message': isBotMessage(msg)}"
         (mouseenter)="hoverIndex = i"
         (mouseleave)="hoverIndex = null"
+        [ngClass]="{'justify-content-end': !isBotMessage(msg), 'justify-content-start': isBotMessage(msg)}"
       >
-        <div class="user-message-container" *ngIf="!isBotMessage(msg)">
-          <div class="message-box">
-            <span *ngIf="!isEditing || editIndex !== i">{{ msg }}</span>
-            <div *ngIf="isEditing && editIndex === i">
-              <input [(ngModel)]="userInput" class="form-control me-2" (keyup.enter)="updateMessage(i)" />
-              <button class="btn btn-primary" (click)="updateMessage(i)">Update</button>
-            </div>
-          </div>
+        <!-- User Message -->
+        <div *ngIf="!isBotMessage(msg)" class="d-flex flex-row gap-2 align-items-center justify-content-end">
+          <div class="user-message">{{ msg }}</div>
+          <i class="bi bi-person-fill" style="padding: 0.5rem;
+    border-radius: 50%;
+    background-color: rgba(223, 223, 228, 0.986);"></i> <!-- User Icon -->
         </div>
 
-        <div class="bot-message-container" style="width: 80% !important;" *ngIf="isBotMessage(msg)">
-          <div class="bot-message">
-            {{ displayedText[i] || '...' }}
-          </div>
-          <div *ngIf="isBotMessage(msg)" class="copy-option">
+        <!-- Bot Message -->
+        <div *ngIf="isBotMessage(msg)" class="d-flex flex-row gap-2 align-items-center justify-content-start bot-message-container"   style="width: 80% !important;">
+          <i class="bi bi-robot bot-icon" style="padding: 0.5rem;
+    border-radius: 50%;
+    background-color: rgba(223, 223, 228, 0.986);"></i>
+          <div class="bot-message" [innerHTML]="formatBotMessage(displayedText[i] || '...')"></div>
+          <div class="copy-option">
             <button class="btn btn-outline-secondary btn-sm" (click)="copyToClipboard(msg)">
               <i class="fa-regular fa-copy"></i>
             </button>
@@ -79,29 +113,97 @@
           </div>
         </div>
       </div>
+
+      <!-- Loading Indicator -->
+      <div *ngIf="isLoading" class="loading-container" style="width: 20%;">
+        <div class="loader"></div>
+      </div>
     </div>
 
-    <div class="input-area d-flex" *ngIf="!isEditing" style="position: relative;">
-      <input
-        type="text"
-        [(ngModel)]="userInput"
-        placeholder="Enter Prompt"
-        class="form-control chat-input"
-        (keyup.enter)="sendMessage()"
-        style="width: 100%; padding-left: 4rem;"
-      />
-      <button (click)="toggleModal()" class="btn btn-link attach-button" title="Attach">
-        <i class="bi bi-paperclip"></i>
-      </button>
-      <button class="btn btn-link send-button" (click)="sendMessage()" title="Send">
-        <i class="bi bi-arrow-up-circle-fill"></i>
-      </button>
-    </div>
+  <div class="input-area d-flex mb-4" *ngIf="!isEditing" style="position: fixed; bottom: 0; transform: translateY(-40%);  z-index: 1000; transform: translateX(0%);">
+    <input
+      type="text"
+      [(ngModel)]="userInput"
+      placeholder="Enter Prompt"
+      class="form-control chat-input"
+      (keyup.enter)="sendMessage()"
+      style="width: 100%; padding-left: 4rem;"
+    />
+    <button (click)="toggleModal()" class="btn btn-link attach-button" title="Attach">
+      <i class="bi bi-paperclip"></i>
+    </button>
+    <button class="btn btn-link send-button" (click)="sendMessage()" title="Send">
+      <i class="bi bi-arrow-up-circle-fill"></i>
+    </button>
   </div>
-</div>
 
 <div *ngIf="isModalOpen" class="modal-overlay">
   <div class="modal-content">
     <app-upload-data (closeModal)="toggleModal()"></app-upload-data>
   </div>
 </div>
+
+<div
+  class="history-modal"
+  [ngClass]="{ 'modal-open': isHistoryModalOpen }"
+>
+  <div class="modal-header">
+    <h5>Chat History</h5>
+    <button class="btn btn-danger btn-sm" (click)="toggleHistoryModal()">
+      <i class="bi bi-x"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h4>History for {{ selectedPreviousPdf || 'All Collections' }}</h4>
+    <h3 style="font-family: 'Times New Roman'">Filter History</h3>
+    <div class="filter-container mb-3">
+      <!-- Filter by Date -->
+      <div class="filter-section">
+        <label for="dateFilter" class="mt-3">Select Date:</label>
+        <input
+          id="dateFilter"
+          type="date"
+          class="form-control"
+          [(ngModel)]="selectedDate"
+          (change)="filterHistory()"
+        />
+      </div>
+
+      <!-- Clear Filter Button -->
+      <button
+        *ngIf="selectedDate"
+        class="btn btn-danger clear-filter-btn"
+        (click)="resetFilters()"
+      >
+        Clear Filters
+      </button>
+    </div>
+
+    <!-- No History Message -->
+    <div *ngIf="filteredQueryResponseHistory.length === 0" class="no-history-message">
+      <p>No history is available for this date.</p>
+    </div>
+
+    <!-- Displaying Filtered History -->
+    <ul *ngIf="filteredQueryResponseHistory.length > 0" class="history-list">
+      <li *ngFor="let item of filteredQueryResponseHistory" class="history-item">
+        <!-- Click to toggle visibility of the full response -->
+        <div (click)="loadHistoryItem(item)">
+          <div class="query">
+            <strong>Query:</strong> {{ item.query }}<br />
+          </div>
+          <div>
+            <strong>Response:</strong>
+            <span (click)="toggleResponse(item); $event.stopPropagation()">
+              {{ item.showFullResponse ? item.response : (item.response | slice: 0:50) }}...
+            </span>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+
+<!-- rohit ravindra kulkarni -->
