@@ -94,7 +94,7 @@
   margin-top: 50rem;
   position: relative;
   width: 60%;
-  margin-left: 12rem;
+  margin-left: 12.5rem;
 }
 
 .chat-input {
@@ -394,8 +394,6 @@
 }
 
 .history-item {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
   border-radius: 8px;
   margin-bottom: 16px;
   padding: 16px;
